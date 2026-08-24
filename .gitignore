@@ -1,0 +1,28 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Datasets and heavy processing files
+data/
+reports/
+
+# IDE files
+.vscode/
+.idea/
+
+# Database files
+*.db
+*.sqlite3
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+*.zip
+
+google_credentials.json

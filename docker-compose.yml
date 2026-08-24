@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    container_name: pneumonia_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: uvicorn app.api:app --host 0.0.0.0 --port 8000
+    
+  streamlit:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    container_name: pneumonia_frontend
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    environment:
+      - API_URL=http://api:8000
+    command: streamlit run app/streamlit_app.py --server.address=0.0.0.0
+    depends_on:
+      - api
