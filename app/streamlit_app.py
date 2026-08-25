@@ -1,8 +1,12 @@
+import sys
+import os
+# Force Python to recognize the repository root so it can find "app" and "src" folders
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import streamlit as st
 import base64
 from PIL import Image
 import io
-import os
 import time
 import numpy as np
 import cv2
