@@ -6,6 +6,8 @@
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.25+-FF4B4B)
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)
 
+### 🔴 [Live Demo: Click Here to Try MLDiagnosis](https://mldiagnosis-2448.streamlit.app)
+
 An enterprise-grade, end-to-end Machine Learning platform that classifies chest X-rays (Standard & DICOM) as NORMAL or PNEUMONIA. Built for scale, reliability, and clinical explainability.
 
 ## ✨ Enterprise Features
