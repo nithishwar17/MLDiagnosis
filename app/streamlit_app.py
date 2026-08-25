@@ -40,7 +40,8 @@ def load_ai_models():
     # Load Temp
     temperature = 1.0
     if os.path.exists("models/temperature.npy"):
-        temperature = float(np.load("models/temperature.npy"))
+        temp_arr = np.load("models/temperature.npy")
+        temperature = float(np.squeeze(temp_arr))
         
     return resnet_model, baseline_model, grad_cam, temperature, device
 
@@ -124,13 +125,16 @@ with col_right:
                 
                 # 1. ResNet18 Prediction + GradCAM
                 cam, resnet_logit = grad_cam(image_tensor)
-                calibrated_logit = resnet_logit / temperature
-                resnet_prob = torch.sigmoid(torch.tensor(calibrated_logit)).item()
+                # Ensure logit and temperature are purely floats
+                resnet_logit = float(np.squeeze(resnet_logit))
+                calibrated_logit = resnet_logit / float(temperature)
+                resnet_prob = float(torch.sigmoid(torch.tensor(calibrated_logit)))
                 
                 # 2. Baseline CNN Prediction
                 with torch.no_grad():
-                    baseline_logit = baseline_model(image_tensor).item()
-                    baseline_prob = torch.sigmoid(torch.tensor(baseline_logit)).item()
+                    baseline_out = baseline_model(image_tensor)
+                    baseline_logit = float(baseline_out.squeeze())
+                    baseline_prob = float(torch.sigmoid(torch.tensor(baseline_logit)))
                     
                 # 3. Ensemble
                 ensemble_prob = (resnet_prob + baseline_prob) / 2.0
