@@ -104,11 +104,19 @@ with col_right:
         st.subheader("📊 Diagnostic Analysis")
         
         if uploaded_file.name.lower().endswith('.dcm'):
-            from src.dicom_utils import process_and_anonymize_dicom
-            image, _ = process_and_anonymize_dicom(uploaded_file.getvalue())
-            st.info("🔒 DICOM file automatically anonymized for privacy before processing.")
+            try:
+                from src.dicom_utils import process_and_anonymize_dicom
+                image, _ = process_and_anonymize_dicom(uploaded_file.getvalue())
+                st.info("🔒 DICOM file automatically anonymized for privacy before processing.")
+            except Exception as e:
+                st.error(f"Failed to read DICOM file: {str(e)}")
+                st.stop()
         else:
-            image = Image.open(uploaded_file).convert('RGB')
+            try:
+                image = Image.open(uploaded_file).convert('RGB')
+            except Exception as e:
+                st.error(f"❌ Invalid Image File: The file you uploaded is not a valid or readable image. (Note: If you are using a Mac, do not upload hidden files starting with '._')")
+                st.stop()
         
         with st.spinner("🧠 Analyzing image across ensemble models..."):
             try:
